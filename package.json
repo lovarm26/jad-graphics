@@ -1,0 +1,10 @@
+{
+  "name": "jad-graphics-backend",
+  "version": "1.0.0",
+  "description": "Backend for JAD Graphics",
+  "main": "index.js",
+  "scripts": {
+    "start": "node api/products.js"
+  },
+  "dependencies": {}
+}
