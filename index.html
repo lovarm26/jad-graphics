@@ -369,20 +369,23 @@
             <svg width="30" height="30" viewBox="0 0 100 100" fill="none" stroke="white" stroke-width="5"><circle cx="50" cy="50" r="45"/><path d="M50 15 L20 85 M50 15 L80 85 M35 60 L65 60"/></svg>
             JAD <span>GRAPHICS</span>
         </div>
-        <nav>
-            <ul>
-                <li><a href="#" style="color: var(--accent-gold); border-bottom: 2px solid var(--accent-gold); padding-bottom: 5px;">Home</a></li>
-                <li><a href="#" onclick="interact('Shop')">Shop</a></li>
-                <li><a href="#" onclick="interact('Design Customizer')">Design Customizer</a></li>
-                <li><a href="#" onclick="interact('My Orders')">My Orders</a></li>
-                <li><a href="#" onclick="interact('About Us')">About Us</a></li>
-                <li><a href="#" onclick="interact('Contact')">Contact</a></li>
-            </ul>
-        </nav>
-        <div class="nav-actions">
-            <a href="#" onclick="interact('Cart')">🛒 <span style="background: red; border-radius: 50%; padding: 2px 6px; font-size: 10px; position: relative; top: -10px; left: -5px;">3</span></a>
-            <a href="#" onclick="interact('My Account')">My Account ▾</a>
-        </div>
+     
+<nav>
+    <ul>
+        <li><a href="index.html" style="color: var(--accent-gold); border-bottom: 2px solid var(--accent-gold); padding-bottom: 5px;">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="customizer.html">Design Customizer</a></li>
+        <li><a href="orders.html">My Orders</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
+</nav>
+
+<!-- Updated Hero Buttons -->
+<div class="hero-buttons">
+    <button class="btn btn-gold" onclick="window.location.href='shop.html'">SHOP NOW 🛒</button>
+    <button class="btn btn-outline" onclick="window.location.href='customizer.html'">CUSTOMIZE DESIGN ✎</button>
+</div>
     </header>
 
     <!-- Hero Section -->
@@ -592,14 +595,39 @@
     }
 
     function interact(actionName) {
-        if (window.event) window.event.preventDefault();
-        
-        if (actionName.includes('Product:')) {
-            placeOrder(1); 
+    if (window.event) window.event.preventDefault();
+    
+    // 1. Handle Product Ordering (Backend API)
+    if (actionName.includes('Product:')) {
+        const productIdMap = {
+            'Product: T-Shirt': 1,
+            'Product: Tarpaulin': 2,
+            'Product: Stickers': 3,
+            'Product: PVC ID': 4,
+            'Product: Acrylic Signage': 5,
+            'Product: Custom Design': 6
+        };
+        placeOrder(productIdMap[actionName] || 1); 
+    } 
+    // 2. Handle Page Navigation (Frontend Redirects)
+    else {
+        const pageMap = {
+            'Shop': 'shop.html',
+            'Design Customizer': 'customizer.html',
+            'My Orders': 'orders.html',
+            'About Us': 'about.html',
+            'Contact': 'contact.html',
+            'Cart': 'cart.html',
+            'My Account': 'account.html'
+        };
+
+        if (pageMap[actionName]) {
+            window.location.href = pageMap[actionName];
         } else {
-            alert("Frontend action triggered: " + actionName);
+            console.log("Action triggered: " + actionName);
         }
     }
+}
 
     // Load products when the page opens
     window.onload = loadProducts;
