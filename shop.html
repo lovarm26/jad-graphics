@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - JAD Graphics</title>
+    <link rel="stylesheet" href="style.css"> <!-- Reusable style from index -->
+    <style>
+        /* Shared styles from index.html applied here */
+        body { background-color: #0a0a0a; color: white; font-family: 'Segoe UI', sans-serif; padding: 20px; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 50px; }
+        .card { background: #151515; padding: 20px; border: 1px solid #333; text-align: center; border-radius: 8px; }
+        .btn-gold { background: #f5b301; color: black; border: none; padding: 10px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Our Products</h1>
+    <div id="product-container" class="product-grid">
+        <p>Loading products...</p>
+    </div>
+
+    <script>
+        const BASE_URL = window.location.origin;
+        async function loadProducts() {
+            const container = document.getElementById('product-container');
+            try {
+                const response = await fetch(`${BASE_URL}/api/products`);[cite: 1]
+                const result = await response.json();[cite: 1]
+                if(result.success) {
+                    container.innerHTML = result.data.map(p => `
+                        <div class="card">
+                            <h3>${p.name}</h3>
+                            <p>₱${p.price}.00</p>
+                            <button class="btn-gold" onclick="placeOrder(${p.id})">BUY NOW</button>
+                        </div>
+                    `).join('');
+                }
+            } catch (e) { container.innerHTML = "Failed to load products."; }
+        }
+
+        async function placeOrder(id) {
+            const response = await fetch(`${BASE_URL}/api/orders`, {[cite: 1]
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ productId: id, customerName: "Guest" })[cite: 1]
+            });
+            const result = await response.json();
+            alert(result.message);[cite: 1]
+        }
+        window.onload = loadProducts;[cite: 1]
+    </script>
+</body>
+</html>
